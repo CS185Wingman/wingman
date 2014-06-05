@@ -77,11 +77,31 @@
         android:layout_weight="1.0"
         android:orientation="horizontal" >
 
-       <Button
-           android:id="@+id/BACPLACEHOLDER"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:text="@string/placeholder" />
+       <TextView
+        android:id="@+id/BACText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="21dp"
+        android:clickable="true"
+        android:onClick="BACClick"
+        android:text="Your Current B.A.C. is:"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/BACNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/BACText"
+        android:layout_alignBottom="@+id/BACText"
+        android:layout_marginLeft="32dp"
+        android:layout_toRightOf="@+id/BACText"
+        android:clickable="true"
+        android:onClick="BACClick"
+        android:text="0.0"
+        android:textColor="@color/green"
+        android:textSize="50dp" />
 
     </LinearLayout>
 
