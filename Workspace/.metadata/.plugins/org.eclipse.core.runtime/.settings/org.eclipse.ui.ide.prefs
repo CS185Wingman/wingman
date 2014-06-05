@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 IMPORT_FILES_AND_FOLDERS_RELATIVE=true
 IMPORT_FILES_AND_FOLDERS_TYPE=23,1
 PROBLEMS_FILTERS_MIGRATE=true
 eclipse.preferences.version=1
 platformState=1400195183668
+=======
+PROBLEMS_FILTERS_MIGRATE=true
+eclipse.preferences.version=1
+platformState=1396653605844
+>>>>>>> origin/george
 quickStart=false
 tipsAndTricks=true

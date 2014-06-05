@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+<<<<<<< HEAD
 <fullyQualifiedTypeName name="android.R"/>
 <fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
@@ -8,4 +9,8 @@
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="edu.cs185.project.wingman.R.id"/>
 <fullyQualifiedTypeName name="edu.cs185.project.wingman.R.drawable"/>
+=======
+<fullyQualifiedTypeName name="java.util.Calendar"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+>>>>>>> origin/george
 </qualifiedTypeNameHistroy>
