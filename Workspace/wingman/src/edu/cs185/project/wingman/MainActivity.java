@@ -93,50 +93,25 @@ public class MainActivity extends ActionBarActivity implements
 	public void BACClick(View v) {
 		dialog = new Dialog(this);
 
-		// set title
-		dialog.setTitle("Drink Selection");
-		dialog.setContentView(R.layout.chart_popup);
+		dialog.setTitle("BAC Chart");
 
-		ImageView iv = (ImageView) dialog.findViewById(R.id.chartIV);
-		/*
-		 * AssetManager am = getAssets(); InputStream is = null; try{ is =
-		 * am.open("drawable-hdpi/bac_chart.jpg");
-		 * System.out.println("Found the file"); } catch(IOException e){
-		 * e.printStackTrace(); System.out.println("Couldn't find the file");
-		 * //R.drawable.bac_chart; } Bitmap bm =
-		 * BitmapFactory.decodeResource(getResources(),
-		 * R.drawable.bac_chart);//.decodeStream(is); iv.setImageBitmap(bm);
-		 */
-
+		ImageView iv = new ImageView(this);
 		Drawable chart = Drawable.createFromPath(Environment
 				.getExternalStorageDirectory().toString() + "/Chart.jpg");
-		// getWindow().getDecorView().setBackground(defaultPic);
-		iv.setImageDrawable(chart);
+
+		iv.setImageResource(R.drawable.bac_chart);
 
 		LayoutInflater li = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		View vi = li.inflate(R.layout.chart_popup, null);
-		// View view = vi.getRootView();
-
-		dialog.setContentView(vi);
+		
 		dialog.setCancelable(true);
-
+		dialog.setContentView(iv);
+		
 		dialog.show();
-		/*
-		 * Log.d("OnClick", "BAC Clicked");
-		 * System.out.println(BACNumberLabel.getText()); //
-		 * BACChart.setBackground(background); AlertDialog alertDialog = new
-		 * AlertDialog.Builder(MainActivity.this) .create();
-		 * alertDialog.setMessage("This is where the chart will go"); //
-		 * alertDialog.addContentView(BACChart, new LayoutParams(null, null));
-		 * alertDialog.setTitle("BAC Chart"); // alertDialog.
-		 * alertDialog.show();
-		 */
 	}
 
 	// Updates the number of the label
-	public void updateBACLabel(double value) {
+	public void updateBAC(double value) {
 		BACNumberLabel.setText("" + value);
 		if (value == 0) {
 			BACNumberLabel.setTextColor(getResources().getColor(R.color.green));
@@ -162,6 +137,7 @@ public class MainActivity extends ActionBarActivity implements
 		bottom = BODY_WATER_GENDER * WEIGHT;
 		right = METABOLISM_CONSTANT * drinking_time;
 		BAC = (top / bottom) - right;
+		updateBAC(BAC);
 		return BAC;
 
 	}
