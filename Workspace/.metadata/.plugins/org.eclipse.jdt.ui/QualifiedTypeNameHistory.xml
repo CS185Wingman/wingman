@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="android.R"/>
+<fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="edu.cs185.project.wingman.R.color"/>
+<fullyQualifiedTypeName name="android.content.res.AssetManager.AssetInputStream"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="edu.cs185.project.wingman.R.id"/>
+<fullyQualifiedTypeName name="edu.cs185.project.wingman.R.drawable"/>
+</qualifiedTypeNameHistroy>
