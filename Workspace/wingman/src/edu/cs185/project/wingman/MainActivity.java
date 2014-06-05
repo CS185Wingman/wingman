@@ -46,8 +46,8 @@ public class MainActivity extends ActionBarActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		BACNumberLabel = (TextView) findViewById(R.id.BACNumber);
-		BitmapFactory bf = new BitmapFactory();
-		bf.decodeFile("asset/PBSA-BAC-Chart.jpg");
+		//BitmapFactory bf = new BitmapFactory();
+		//bf.decodeFile("asset/PBSA-BAC-Chart.jpg");
 		return true;
 	}
 
@@ -82,15 +82,16 @@ public class MainActivity extends ActionBarActivity {
 
 	public void BACClick(View v) {
 		
-		ImageView BACChart= (ImageView)findViewById(R.id.imageView1);  
-		int resID = getResources().getIdentifier("PBSA-BAC-Chart", "drawable",  getPackageName());
-		BACChart.setImageResource(resID);
+		//ImageView BACChart= (ImageView)findViewById(R.id.imageView1);  
+		//int resID = getResources().getIdentifier("PBSA-BAC-Chart", "drawable",  getPackageName());
+		//BACChart.setImageResource(resID);
 		Log.d("OnClick", "BAC Clicked");
 		System.out.println(BACNumberLabel.getText());
 		//BACChart.setBackground(background);
 		AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
 				.create();
-		alertDialog.addContentView(BACChart, new LayoutParams(null, null));
+		alertDialog.setMessage("This is where the chart will go");
+		//alertDialog.addContentView(BACChart, new LayoutParams(null, null));
 		alertDialog.setTitle("BAC Chart");
 		//alertDialog.
 		alertDialog.show();
