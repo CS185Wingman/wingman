@@ -1,5 +1,8 @@
 package edu.cs185.project.wingman;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -20,15 +23,51 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.os.Build;
 
-public class MainActivity extends ActionBarActivity implements OnItemClickListener {
 
+public class MainActivity extends ActionBarActivity implements OnItemClickListener {
+    /* To Calculate Blood Alcohol Levels */
 	Dialog dialog;
+	static int DRUNK, /*State there in, status to go along with BAC */
+		       BUZZING_HARD,
+			   BUZZING,
+		       ON_A_GOOD_ONE,
+			   HEAD_CHANGE,
+		       PRACTICALLY_SOBER,
+			   SOBER;
+	
+					 
+	double BAC, LastHour, LastMinute;
+	/* Some constants for the BAC formula */
+	double STANDARD_DRINKS,
+		  BODY_WATER_CONSTANT, /*.806*/
+		  METABOLISM_CONSTANT, /*.017*/
+		  BODY_WATER_GENDER,
+		  WEIGHT, /* In kilograms, conversion eminent because America. */
+		  SWEDISH_CONVERTER;  /*1.2*/ 
+	 double DRINKING_PERIOD[];
+	
+	public double tequilaMockingbird(double drink_number, 
+			double drinking_time){
+		double top, bottom, right;
+		top = BODY_WATER_CONSTANT*drink_number*SWEDISH_CONVERTER;
+		bottom = BODY_WATER_GENDER*WEIGHT;
+		right = METABOLISM_CONSTANT*drinking_time;
+		BAC = (top/bottom) -right;
+		return BAC;
+		
+		
+	}
+		
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        BODY_WATER_GENDER = .58; /*default make */
+        WEIGHT = 85; /*default weight, will be changed eventually */
+        LastHour = LastMinute = 0.0; /* initial values */
+        DRINKING_PERIOD = new double[2];
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -86,10 +125,68 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	 public void onItemClick(AdapterView<?> arg, View arg1, int arg2, long arg3){
 		 AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		 final String dSelected = DRINKS[arg2];
-		 
+		 double mHour, mMinute;
 		 TextView drinkLabel = (TextView) findViewById(R.id.noDrinkSelected);
 		 drinkLabel.setText(dSelected);
+		 System.out.println("LastHour:"+LastHour+" LastMinute:"+LastMinute);
+		 if(DRINKING_PERIOD[0]==0.0){
+			 DRINKING_PERIOD[0] = 1.0;
+		 	 DRINKING_PERIOD[1] = 0.0;
+		 	 final Calendar cal = Calendar.getInstance();
+			 Date date = cal.getTime();
+		 	 mHour = date.getHours();
+			 mMinute = date.getMinutes();		
+		 }
+		 else{
+			final Calendar cal = Calendar.getInstance();
+			Date date = cal.getTime();
+			mHour = date.getHours();
+			mMinute = date.getMinutes();
 			
+			if(LastHour!=0 && LastHour==mHour){
+				double time_diff = mMinute - LastMinute;
+				DRINKING_PERIOD[1]+=time_diff; /*Sets appropriate Minute */
+				if(DRINKING_PERIOD[1]>=60){/* if minute > 60*/
+					DRINKING_PERIOD[0]++; 
+					DRINKING_PERIOD[1]-=60;
+				}
+			}
+			else if(LastHour!=0 && LastHour!=mHour){
+				   if (LastMinute > mMinute){
+					   mHour--;
+					   mMinute+=60;
+					   mMinute*=-1;
+					   DRINKING_PERIOD[0]+= (mHour - LastHour);
+					   DRINKING_PERIOD[1]+=(mMinute -LastMinute);
+					   if(DRINKING_PERIOD[1]>=60){ /* If minute is > 60 */ 
+							DRINKING_PERIOD[0]++;
+							DRINKING_PERIOD[1]-=60;
+						}
+					   
+					   
+				   }
+				   else{
+					   DRINKING_PERIOD[0]+=(mHour- LastHour);
+					   DRINKING_PERIOD[1]+=(mMinute -LastMinute);
+					   if(DRINKING_PERIOD[1]>=60){ /* If minute is > 60 */ 
+							DRINKING_PERIOD[0]++;
+							DRINKING_PERIOD[1]-=60;
+						}
+					   
+				   }
+			}
+			
+			
+			
+			System.out.println("Hour:"+mHour+", Minute:"+mMinute);
+			System.out.println("DP Hour:"+DRINKING_PERIOD[0]
+					+" DP Minute:"+DRINKING_PERIOD[1]);
+		 }
+		 STANDARD_DRINKS++;
+		 LastHour = mHour;
+		 LastMinute = mMinute;
+		 
+			 
 		 dialog.cancel();
 		 
 		 /** THIS IS FOR IF WE WANT EXTRA DIALOG FOR DISPLAYING INFO ABOUT DRINK?
