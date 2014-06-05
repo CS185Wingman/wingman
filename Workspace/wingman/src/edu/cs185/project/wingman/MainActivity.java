@@ -1,5 +1,7 @@
 package edu.cs185.project.wingman;
 
+import java.io.IOException;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,9 +20,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.os.Build;
+import android.content.res.AssetManager;
+import java.io.InputStream;
+import android.graphics.*;
+
 
 public class MainActivity extends ActionBarActivity implements
 		OnItemClickListener {
@@ -63,10 +70,36 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	public void BACClick(View v) {
-		// ImageView BACChart= (ImageView)findViewById(R.id.imageView1);
-		// int resID = getResources().getIdentifier("PBSA-BAC-Chart",
-		// "drawable", getPackageName());
-		// BACChart.setImageResource(resID);
+		dialog = new Dialog(this);
+
+		// set title
+		dialog.setTitle("Drink Selection");
+		dialog.setContentView(R.layout.chart_popup);
+		
+		ImageView iv = (ImageView) dialog.findViewById(R.id.chartIV);
+		AssetManager am = getAssets();
+		InputStream is = null;
+		try{
+			is = am.open("res/drawable-hdpi/bac_chart.jpg");
+			System.out.println("Found the file");
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		Bitmap bm = BitmapFactory.decodeStream(is);
+		iv.setImageBitmap(bm);
+
+		LayoutInflater li = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		View vi = li.inflate(R.layout.chart_popup, null);
+		View view = vi.getRootView();
+		
+		dialog.setContentView(vi);
+		dialog.setCancelable(true);
+		
+		dialog.show();
+		/*
 		Log.d("OnClick", "BAC Clicked");
 		System.out.println(BACNumberLabel.getText());
 		// BACChart.setBackground(background);
@@ -76,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements
 		// alertDialog.addContentView(BACChart, new LayoutParams(null, null));
 		alertDialog.setTitle("BAC Chart");
 		// alertDialog.
-		alertDialog.show();
+		alertDialog.show();*/
 	}
 
 	//Updates the number of the label
