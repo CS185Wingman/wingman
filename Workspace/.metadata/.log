@@ -1827,3 +1827,16 @@ java.lang.OutOfMemoryError: Java heap space
 	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.notifyIdle(IndexManager.java:618)
 	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:388)
 	at java.lang.Thread.run(Thread.java:695)
+
+!ENTRY org.eclipse.core.jobs 4 2 2014-06-05 13:00:14.879
+!MESSAGE An internal error occurred during: "Periodic workspace save.".
+!STACK 0
+java.lang.IllegalArgumentException: Cannot set lower sequence number for root (previous: 7, new: 1). Location: /Users/gguletz/Documents/School/HCI/Project/wingman/Workspace/.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+	at org.eclipse.core.runtime.Assert.isLegal(Assert.java:63)
+	at org.eclipse.core.internal.resources.SaveManager.validateMasterTableBeforeSave(SaveManager.java:1564)
+	at org.eclipse.core.internal.resources.SaveManager.saveMasterTable(SaveManager.java:1228)
+	at org.eclipse.core.internal.resources.SaveManager.saveMasterTable(SaveManager.java:1220)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1197)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1109)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:51)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
