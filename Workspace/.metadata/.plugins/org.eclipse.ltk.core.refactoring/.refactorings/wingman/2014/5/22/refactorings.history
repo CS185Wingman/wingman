@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;BAC_Text_View&apos; in &apos;edu.cs185.project.wingman.R.id&apos; to &apos;BACTV&apos;&#x0A;- Original project: &apos;wingman&apos;&#x0A;- Original element: &apos;edu.cs185.project.wingman.R.id.BAC_Text_View&apos;&#x0A;- Renamed element: &apos;edu.cs185.project.wingman.R.id.BACTV&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="true" description="Rename field &apos;BAC_Text_View&apos;" flags="589830" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/gen&lt;edu.cs185.project.wingman{R.java[R[id^BAC_Text_View" name="BACTV" references="true" setter="false" stamp="1401578020930" textual="false" version="1.0"/>
+</session>
