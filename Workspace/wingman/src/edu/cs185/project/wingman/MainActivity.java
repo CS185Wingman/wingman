@@ -1,9 +1,9 @@
 package edu.cs185.project.wingman;
 
 import java.io.IOException;
-
 import java.util.Calendar;
 import java.util.Date;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -79,6 +80,10 @@ public class MainActivity extends ActionBarActivity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		BACNumberLabel = (TextView) findViewById(R.id.BACNumber);
+		android.app.ActionBar bar = getActionBar();
+		bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
+		bar.setDisplayShowTitleEnabled(false);
+		bar.setDisplayShowTitleEnabled(true);
 		return true;
 	}
 
@@ -97,13 +102,12 @@ public class MainActivity extends ActionBarActivity implements
 	public void BACClick(View v) {
 		dialog = new Dialog(this);
 		dialog.setTitle("BAC Chart");
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.offwhite)));
 
 		ImageView iv = new ImageView(this);
 		iv.setImageResource(R.drawable.bac_chart);
-		
 		dialog.setCancelable(true);
 		dialog.setContentView(iv);
-		
 		dialog.show();
 	}
 
@@ -155,6 +159,7 @@ public class MainActivity extends ActionBarActivity implements
 		// set title
 		dialog.setTitle("Drink Selection");
 		dialog.setContentView(R.layout.select_drink);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.offwhite)));
 
 		LayoutInflater li = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

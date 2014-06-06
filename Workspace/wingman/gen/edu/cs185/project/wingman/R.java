@@ -858,14 +858,19 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070007;
+        public static final int abc_search_url_text_holo=0x7f07000c;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
         public static final int blue=0x7f070006;
+        public static final int darkred=0x7f07000b;
         public static final int green=0x7f070004;
+        public static final int grey=0x7f070007;
+        public static final int lightblue=0x7f07000a;
+        public static final int offwhite=0x7f070009;
         public static final int orange=0x7f070005;
         public static final int red=0x7f070003;
+        public static final int teal=0x7f070008;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1095,10 +1100,11 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f050023;
         public static final int action_bar_title=0x7f050022;
         public static final int action_context_bar=0x7f05001d;
+        public static final int action_help=0x7f050049;
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f050049;
+        public static final int action_settings=0x7f05004a;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int bacButtonLayout=0x7f050045;
