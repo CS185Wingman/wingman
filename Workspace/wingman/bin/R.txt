@@ -257,12 +257,13 @@ int id action_bar_root 0x7f05001a
 int id action_bar_subtitle 0x7f050023
 int id action_bar_title 0x7f050022
 int id action_context_bar 0x7f05001d
-int id action_drink_list 0x7f050056
-int id action_help 0x7f050057
+int id action_drink_list 0x7f050057
+int id action_help 0x7f050058
 int id action_menu_divider 0x7f050016
 int id action_menu_presenter 0x7f050017
 int id action_mode_close_button 0x7f050024
-int id action_settings 0x7f050058
+int id action_settings 0x7f050059
+int id action_username 0x7f050056
 int id activity_chooser_view_content 0x7f050025
 int id always 0x7f05000b
 int id bacButtonLayout 0x7f050045

@@ -1102,12 +1102,13 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f050023;
         public static final int action_bar_title=0x7f050022;
         public static final int action_context_bar=0x7f05001d;
-        public static final int action_drink_list=0x7f050056;
-        public static final int action_help=0x7f050057;
+        public static final int action_drink_list=0x7f050057;
+        public static final int action_help=0x7f050058;
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f050058;
+        public static final int action_settings=0x7f050059;
+        public static final int action_username=0x7f050056;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int bacButtonLayout=0x7f050045;

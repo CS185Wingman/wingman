@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData.Item;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -55,25 +57,25 @@ public class MainActivity extends ActionBarActivity implements
 								 */
 	SWEDISH_CONVERTER; /* 1.2 */
 	double DRINKING_PERIOD[];
-	
-	//user settings
+
+	// user settings
 	String name;
 	double height_feet, height_inches, weight;
 	boolean isMale;
-	
+	Menu m;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		BODY_WATER_GENDER = .58; /* default male */
-		WEIGHT = 85; /* default weight, will be changed eventually */
+		WEIGHT = 80; /* default weight, will be changed eventually */
 		LastHour = LastMinute = 0.0; /* initial values */
 		DRINKING_PERIOD = new double[2];
-		numDrinks=0;
-		METABOLISM_CONSTANT=0.017;
-		SWEDISH_CONVERTER=1.2;
-		BODY_WATER_CONSTANT=.806;
+		numDrinks = 0;
+		METABOLISM_CONSTANT = 0.017;
+		SWEDISH_CONVERTER = 1.2;
+		BODY_WATER_CONSTANT = .806;
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -87,9 +89,11 @@ public class MainActivity extends ActionBarActivity implements
 		getMenuInflater().inflate(R.menu.main, menu);
 		BACNumberLabel = (TextView) findViewById(R.id.BACNumber);
 		android.app.ActionBar bar = getActionBar();
-		bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
+		bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(
+				R.color.teal)));
 		bar.setDisplayShowTitleEnabled(false);
 		bar.setDisplayShowTitleEnabled(true);
+		m = menu;
 		return true;
 	}
 
@@ -101,11 +105,9 @@ public class MainActivity extends ActionBarActivity implements
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			launchSettings();
-		}
-		else if(id == R.id.action_help){
+		} else if (id == R.id.action_help) {
 			launchHelp();
-		}
-		else if(id == R.id.action_drink_list){
+		} else if (id == R.id.action_drink_list) {
 			launchPastDrinks();
 		}
 		return super.onOptionsItemSelected(item);
@@ -114,7 +116,8 @@ public class MainActivity extends ActionBarActivity implements
 	public void BACClick(View v) {
 		dialog = new Dialog(this);
 		dialog.setTitle("BAC Chart");
-		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.offwhite)));
+		dialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(getResources().getColor(R.color.offwhite)));
 
 		ImageView iv = new ImageView(this);
 		iv.setImageResource(R.drawable.bac_chart);
@@ -125,7 +128,8 @@ public class MainActivity extends ActionBarActivity implements
 
 	// Updates the number of the label
 	public void updateBAC(double value) {
-		BACNumberLabel.setText("" + value);
+		String bac = "" + value;
+		BACNumberLabel.setText(bac.substring(0, 6));
 		if (value == 0) {
 			BACNumberLabel.setTextColor(getResources().getColor(R.color.green));
 		} else if (value <= 0.07) {
@@ -137,6 +141,7 @@ public class MainActivity extends ActionBarActivity implements
 					.create();
 			warning.setMessage("You have a very high BAC. Consider drinking water and holding off drinking more alcohol.");
 			warning.setTitle("Warning: High BAC Level");
+			warning.show();
 		}
 		// do check here for if value is getting too high
 		// if so, change the color to orange/yellow
@@ -144,24 +149,87 @@ public class MainActivity extends ActionBarActivity implements
 		// drink more
 	}
 
-	//adds a new drink
-	public void addDrink(View v){
+	// adds a new drink
+	public void addDrink(View v) {
 		numDrinks++;
-		System.out.println("New Drink Added (Number "+numDrinks+" of the night), BAC="+tequilaMockingbird(numDrinks, 60));
+		System.out.println("New Drink Added (Number " + numDrinks
+				+ " of the night), BAC="
+				+ tequilaMockingbird());
 	}
-	
-	//calculates BAC value
-	public double tequilaMockingbird(double drink_number, double drinking_time) {
+
+	// calculates BAC value
+	public double tequilaMockingbird() {
+		calculateTime();
+		double time = DRINKING_PERIOD[0] + DRINKING_PERIOD[1] / 60;
 		double top, bottom, right;
-		top = BODY_WATER_CONSTANT * drink_number * SWEDISH_CONVERTER;
+		top = BODY_WATER_CONSTANT * numDrinks * SWEDISH_CONVERTER;
 		bottom = BODY_WATER_GENDER * WEIGHT;
-		right = METABOLISM_CONSTANT * drinking_time;
+		right = METABOLISM_CONSTANT * time;
 		BAC = (top / bottom) - right;
-		System.out.println("BWC="+BODY_WATER_CONSTANT+" Swed="+SWEDISH_CONVERTER+" Metab="+METABOLISM_CONSTANT+" time="+drinking_time);
-		System.out.println("Top="+top+" Bottom="+bottom+" right="+right);
-		updateBAC(BAC);//update label
+		System.out.println("BWC=" + BODY_WATER_CONSTANT + " Swed="
+				+ SWEDISH_CONVERTER + " Metab=" + METABOLISM_CONSTANT
+				+ " time=" + DRINKING_PERIOD[0] + ":" + DRINKING_PERIOD[1]);
+		System.out.println("Top=" + top + " Bottom=" + bottom + " right="
+				+ right);
+		updateBAC(BAC);// update label
 		return BAC;
 
+	}
+
+	public void calculateTime() {
+		double mHour, mMinute;
+		System.out
+				.println("LastHour:" + LastHour + " LastMinute:" + LastMinute);
+		if (DRINKING_PERIOD[0] == 0.0) {
+			DRINKING_PERIOD[0] = 1.0;
+			DRINKING_PERIOD[1] = 0.0;
+			final Calendar cal = Calendar.getInstance();
+			Date date = cal.getTime();
+			mHour = date.getHours();
+			mMinute = date.getMinutes();
+		} else {
+			final Calendar cal = Calendar.getInstance();
+			Date date = cal.getTime();
+			mHour = date.getHours();
+			mMinute = date.getMinutes();
+
+			if (LastHour != 0 && LastHour == mHour) {
+				double time_diff = mMinute - LastMinute;
+				DRINKING_PERIOD[1] += time_diff; // Sets appropriate Minute
+				if (DRINKING_PERIOD[1] >= 60) {// if minute > 60
+					DRINKING_PERIOD[0]++;
+					DRINKING_PERIOD[1] -= 60;
+				}
+			} else if (LastHour != 0 && LastHour != mHour) {
+				if (LastMinute > mMinute) {
+					mHour--;
+					mMinute += 60;
+					mMinute *= -1;
+					DRINKING_PERIOD[0] += (mHour - LastHour);
+					DRINKING_PERIOD[1] += (mMinute - LastMinute);
+					if (DRINKING_PERIOD[1] >= 60) { // If minute is > 60
+						DRINKING_PERIOD[0]++;
+						DRINKING_PERIOD[1] -= 60;
+					}
+
+				} else {
+					DRINKING_PERIOD[0] += (mHour - LastHour);
+					DRINKING_PERIOD[1] += (mMinute - LastMinute);
+					if (DRINKING_PERIOD[1] >= 60) { // If minute is > 60
+						DRINKING_PERIOD[0]++;
+						DRINKING_PERIOD[1] -= 60;
+					}
+
+				}
+			}
+
+			System.out.println("Hour:" + mHour + ", Minute:" + mMinute);
+			System.out.println("DP Hour:" + DRINKING_PERIOD[0] + " DP Minute:"
+					+ DRINKING_PERIOD[1]);
+		}
+		STANDARD_DRINKS++;
+		LastHour = mHour;
+		LastMinute = mMinute;
 	}
 
 	public void selectDrink(View v) {
@@ -171,7 +239,8 @@ public class MainActivity extends ActionBarActivity implements
 		// set title
 		dialog.setTitle("Drink Selection");
 		dialog.setContentView(R.layout.select_drink);
-		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.offwhite)));
+		dialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(getResources().getColor(R.color.offwhite)));
 
 		LayoutInflater li = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -197,64 +266,9 @@ public class MainActivity extends ActionBarActivity implements
 	public void onItemClick(AdapterView<?> arg, View arg1, int arg2, long arg3) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		final String dSelected = DRINKS[arg2];
-		double mHour, mMinute;
 		TextView drinkLabel = (TextView) findViewById(R.id.noDrinkSelected);
 		drinkLabel.setText(dSelected);
-		
-		System.out
-				.println("LastHour:" + LastHour + " LastMinute:" + LastMinute);
-		if (DRINKING_PERIOD[0] == 0.0) {
-			DRINKING_PERIOD[0] = 1.0;
-			DRINKING_PERIOD[1] = 0.0;
-			final Calendar cal = Calendar.getInstance();
-			Date date = cal.getTime();
-			mHour = date.getHours();
-			mMinute = date.getMinutes();
-		} else {
-			final Calendar cal = Calendar.getInstance();
-			Date date = cal.getTime();
-			mHour = date.getHours();
-			mMinute = date.getMinutes();
 
-			if (LastHour != 0 && LastHour == mHour) {
-				double time_diff = mMinute - LastMinute;
-				DRINKING_PERIOD[1] += time_diff; // Sets appropriate Minute 
-				if (DRINKING_PERIOD[1] >= 60) {// if minute > 60 
-					DRINKING_PERIOD[0]++;
-					DRINKING_PERIOD[1] -= 60;
-				}
-			} else if (LastHour != 0 && LastHour != mHour) {
-				if (LastMinute > mMinute) {
-					mHour--;
-					mMinute += 60;
-					mMinute *= -1;
-					DRINKING_PERIOD[0] += (mHour - LastHour);
-					DRINKING_PERIOD[1] += (mMinute - LastMinute);
-					if (DRINKING_PERIOD[1] >= 60) { // If minute is > 60
-						DRINKING_PERIOD[0]++;
-						DRINKING_PERIOD[1] -= 60;
-					}
-
-				} else {
-					DRINKING_PERIOD[0] += (mHour - LastHour);
-					DRINKING_PERIOD[1] += (mMinute - LastMinute);
-					if (DRINKING_PERIOD[1] >= 60) { // If minute is > 60 
-						DRINKING_PERIOD[0]++;
-						DRINKING_PERIOD[1] -= 60;
-					}
-
-				}
-			}
-
-			System.out.println("Hour:" + mHour + ", Minute:" + mMinute);
-			System.out.println("DP Hour:" + DRINKING_PERIOD[0] + " DP Minute:"
-					+ DRINKING_PERIOD[1]);
-		}
-		STANDARD_DRINKS++;
-		LastHour = mHour;
-		LastMinute = mMinute;
-
-		
 		dialog.cancel();
 
 		/**
@@ -287,15 +301,17 @@ public class MainActivity extends ActionBarActivity implements
 		// alert.show();
 	}
 
-	//Action Bar Functions
+	// Action Bar Functions
 	public void launchSettings() {
 		dialog = new Dialog(this);
 
 		// set title
 		dialog.setTitle("User Settings");
 		dialog.setContentView(R.layout.user_settings);
-		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
-		dialog.getWindow().setTitleColor(getResources().getColor(R.color.white));
+		dialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(getResources().getColor(R.color.teal)));
+		dialog.getWindow()
+				.setTitleColor(getResources().getColor(R.color.white));
 
 		LayoutInflater li = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -313,7 +329,8 @@ public class MainActivity extends ActionBarActivity implements
 		AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
 				.create();
 		alertDialog.setTitle("Help");
-		alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
+		alertDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(getResources().getColor(R.color.teal)));
 		alertDialog
 				.setMessage("As you drink, log the drinks you consume and Wingman will keep track of how much alcohol is in your system. \n "
 						+ "\n Select the type of drink you are consuming, and click the +1 button \n"
@@ -322,24 +339,32 @@ public class MainActivity extends ActionBarActivity implements
 						+ "If your BAC is too high, it is unsafe to continue drinking alcohol.");
 		alertDialog.show();
 	}
-	
+
 	public void launchPastDrinks() {
 		AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
 				.create();
 		alertDialog.setTitle("Past Drinks");
-		alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
+		alertDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(getResources().getColor(R.color.teal)));
 		alertDialog
 				.setMessage("This is where a list of previously-consumed drinks and the time consumed will be");
 		alertDialog.show();
 	}
-	
-	public void saveUserSettings(View v){
+
+	public void saveUserSettings(View v) {
+		EditText et = (EditText) v.findViewById(R.id.nameField);
+		String s;
+		if (et.getText().length() > 0)
+			s = et.getText().toString();
+		else
+			s = "No user";
+		m.getItem(R.id.action_username).setTitle(s);
 		dialog.dismiss();
 		System.out.println("Settings saved");
 	}
-	
-	private static final String[] DRINKS = new String[] { "Light Beer", "Dark Beer", "Wine",
-			"Shot", "Mixed Drink" };
+
+	private static final String[] DRINKS = new String[] { "Light Beer",
+			"Dark Beer", "Wine", "Shot", "Mixed Drink" };
 
 	/**
 	 * A placeholder fragment containing a simple view.

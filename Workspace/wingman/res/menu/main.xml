@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.cs185.project.wingman.MainActivity" >
     
+    <item
+        android:id="@+id/action_username"
+        android:orderInCategory="100"
+        android:title="Logged in User: Graham Guletz"
+        android:enabled="false"
+        app:showAsAction="always"
+        />
     
     <item
         android:id="@+id/action_drink_list"
