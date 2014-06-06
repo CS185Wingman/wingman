@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity implements
 	BUZZING_HARD, BUZZING, ON_A_GOOD_ONE, HEAD_CHANGE, PRACTICALLY_SOBER,
 			SOBER;
 
-	double BAC, LastHour, LastMinute;
+	double BAC, LastHour, LastMinute, numDrinks;
 	/* Some constants for the BAC formula */
 	double STANDARD_DRINKS, BODY_WATER_CONSTANT, /* .806 */
 	METABOLISM_CONSTANT, /* .017 */
@@ -59,10 +59,14 @@ public class MainActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		BODY_WATER_GENDER = .58; /* default make */
+		BODY_WATER_GENDER = .58; /* default male */
 		WEIGHT = 85; /* default weight, will be changed eventually */
 		LastHour = LastMinute = 0.0; /* initial values */
 		DRINKING_PERIOD = new double[2];
+		numDrinks=0;
+		METABOLISM_CONSTANT=0.017;
+		SWEDISH_CONVERTER=1.2;
+		BODY_WATER_CONSTANT=.806;
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -92,17 +96,10 @@ public class MainActivity extends ActionBarActivity implements
 
 	public void BACClick(View v) {
 		dialog = new Dialog(this);
-
 		dialog.setTitle("BAC Chart");
 
 		ImageView iv = new ImageView(this);
-		Drawable chart = Drawable.createFromPath(Environment
-				.getExternalStorageDirectory().toString() + "/Chart.jpg");
-
 		iv.setImageResource(R.drawable.bac_chart);
-
-		LayoutInflater li = (LayoutInflater) this
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		dialog.setCancelable(true);
 		dialog.setContentView(iv);
@@ -131,13 +128,22 @@ public class MainActivity extends ActionBarActivity implements
 		// drink more
 	}
 
+	//adds a new drink
+	public void addDrink(View v){
+		numDrinks++;
+		System.out.println("New Drink Added (Number "+numDrinks+" of the night), BAC="+tequilaMockingbird(numDrinks, 60));
+	}
+	
+	//calculates BAC value
 	public double tequilaMockingbird(double drink_number, double drinking_time) {
 		double top, bottom, right;
 		top = BODY_WATER_CONSTANT * drink_number * SWEDISH_CONVERTER;
 		bottom = BODY_WATER_GENDER * WEIGHT;
 		right = METABOLISM_CONSTANT * drinking_time;
 		BAC = (top / bottom) - right;
-		updateBAC(BAC);
+		System.out.println("BWC="+BODY_WATER_CONSTANT+" Swed="+SWEDISH_CONVERTER+" Metab="+METABOLISM_CONSTANT+" time="+drinking_time);
+		System.out.println("Top="+top+" Bottom="+bottom+" right="+right);
+		updateBAC(BAC);//update label
 		return BAC;
 
 	}
@@ -177,6 +183,7 @@ public class MainActivity extends ActionBarActivity implements
 		double mHour, mMinute;
 		TextView drinkLabel = (TextView) findViewById(R.id.noDrinkSelected);
 		drinkLabel.setText(dSelected);
+		
 		System.out
 				.println("LastHour:" + LastHour + " LastMinute:" + LastMinute);
 		if (DRINKING_PERIOD[0] == 0.0) {
@@ -194,8 +201,8 @@ public class MainActivity extends ActionBarActivity implements
 
 			if (LastHour != 0 && LastHour == mHour) {
 				double time_diff = mMinute - LastMinute;
-				DRINKING_PERIOD[1] += time_diff; /* Sets appropriate Minute */
-				if (DRINKING_PERIOD[1] >= 60) {/* if minute > 60 */
+				DRINKING_PERIOD[1] += time_diff; // Sets appropriate Minute 
+				if (DRINKING_PERIOD[1] >= 60) {// if minute > 60 
 					DRINKING_PERIOD[0]++;
 					DRINKING_PERIOD[1] -= 60;
 				}
@@ -206,7 +213,7 @@ public class MainActivity extends ActionBarActivity implements
 					mMinute *= -1;
 					DRINKING_PERIOD[0] += (mHour - LastHour);
 					DRINKING_PERIOD[1] += (mMinute - LastMinute);
-					if (DRINKING_PERIOD[1] >= 60) { /* If minute is > 60 */
+					if (DRINKING_PERIOD[1] >= 60) { // If minute is > 60
 						DRINKING_PERIOD[0]++;
 						DRINKING_PERIOD[1] -= 60;
 					}
@@ -214,7 +221,7 @@ public class MainActivity extends ActionBarActivity implements
 				} else {
 					DRINKING_PERIOD[0] += (mHour - LastHour);
 					DRINKING_PERIOD[1] += (mMinute - LastMinute);
-					if (DRINKING_PERIOD[1] >= 60) { /* If minute is > 60 */
+					if (DRINKING_PERIOD[1] >= 60) { // If minute is > 60 
 						DRINKING_PERIOD[0]++;
 						DRINKING_PERIOD[1] -= 60;
 					}
@@ -230,6 +237,7 @@ public class MainActivity extends ActionBarActivity implements
 		LastHour = mHour;
 		LastMinute = mMinute;
 
+		
 		dialog.cancel();
 
 		/**
@@ -262,8 +270,8 @@ public class MainActivity extends ActionBarActivity implements
 		// alert.show();
 	}
 
-	private static final String[] DRINKS = new String[] { "Beer", "Wines",
-			"etc" };
+	private static final String[] DRINKS = new String[] { "Light Beer", "Dark Beer", "Wine",
+			"Shot", "Mixed Drink" };
 
 	/**
 	 * A placeholder fragment containing a simple view.

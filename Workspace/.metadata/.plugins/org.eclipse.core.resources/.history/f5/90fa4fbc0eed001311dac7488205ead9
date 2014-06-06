@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="edu.cs185.project.wingman.MainActivity$PlaceholderFragment" >
+
+   <RelativeLayout
+        android:id="@+id/selectDrinkLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+       <Button
+           android:id="@+id/typeOfDrinkButton"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center_horizontal"
+           android:text="@string/drinkSelect"
+           android:onClick="selectDrink" />
+        
+   </>
+   
+   <RelativeLayout
+        android:id="@+id/previousDrinkLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.0"
+        android:orientation="vertical" >
+
+       <TextView
+           android:id="@+id/prevDrinkLabel"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center_horizontal"
+           android:text="@string/prevDrinkLabel"
+           android:textAppearance="?android:attr/textAppearanceMedium" />
+
+       <TextView
+           android:id="@+id/noDrinkSelected"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+           android:text="@string/noDrinkSelected"
+           android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+   </RelativeLayout>
+   
+   <RelativeLayout
+        android:id="@+id/plusOneButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:onClick="addDrink">
+
+       <Button
+           android:id="@+id/plusOneButton"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/plusOne" />
+        
+   </RelativeLayout>
+   
+   
+   <LinearLayout
+        android:id="@+id/bacButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:orientation="horizontal" >
+
+       <TextView
+        android:id="@+id/BACText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="21dp"
+        android:clickable="true"
+        android:onClick="BACClick"
+        android:text="Your Current B.A.C. is:"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/BACNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/BACText"
+        android:layout_alignBottom="@+id/BACText"
+        android:layout_marginLeft="32dp"
+        android:layout_toRightOf="@+id/BACText"
+        android:clickable="true"
+        android:onClick="BACClick"
+        android:text="0.0"
+        android:textColor="@color/green"
+        android:textSize="50dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
