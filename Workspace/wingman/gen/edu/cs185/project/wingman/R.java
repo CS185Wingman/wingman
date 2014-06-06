@@ -1125,20 +1125,20 @@ containing a value of this type.
         public static final int end=0x7f050013;
         public static final int expand_activities_button=0x7f050026;
         public static final int expanded_menu=0x7f05002c;
-        public static final int feetLabel=0x7f050050;
-        public static final int femaleButton=0x7f05004c;
-        public static final int heightField=0x7f050053;
-        public static final int heightLabel=0x7f050055;
+        public static final int feetLabel=0x7f050052;
+        public static final int femaleButton=0x7f05004e;
+        public static final int heightField=0x7f050051;
+        public static final int heightLabel=0x7f050054;
         public static final int home=0x7f050014;
         public static final int homeAsUp=0x7f050005;
         public static final int icon=0x7f05002a;
         public static final int ifRoom=0x7f05000a;
         public static final int image=0x7f050027;
-        public static final int inchesField=0x7f05004f;
-        public static final int inchesLabel=0x7f05004e;
+        public static final int inchesField=0x7f050055;
+        public static final int inchesLabel=0x7f050053;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
-        public static final int maleButton=0x7f05004d;
+        public static final int maleButton=0x7f050050;
         public static final int middle=0x7f050012;
         public static final int nameField=0x7f05004a;
         public static final int nameLabel=0x7f050049;
@@ -1153,7 +1153,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
-        public static final int saveSettingsButton=0x7f050054;
+        public static final int saveSettingsButton=0x7f05004f;
         public static final int search_badge=0x7f050032;
         public static final int search_bar=0x7f050031;
         public static final int search_button=0x7f050033;
@@ -1178,8 +1178,8 @@ containing a value of this type.
         public static final int typeOfDrinkButton=0x7f05003f;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
-        public static final int weightField=0x7f050052;
-        public static final int weightLabel=0x7f050051;
+        public static final int weightField=0x7f05004d;
+        public static final int weightLabel=0x7f05004c;
         public static final int withText=0x7f05000c;
     }
     public static final class integer {

@@ -55,6 +55,12 @@ public class MainActivity extends ActionBarActivity implements
 								 */
 	SWEDISH_CONVERTER; /* 1.2 */
 	double DRINKING_PERIOD[];
+	
+	//user settings
+	String name;
+	double height_feet, height_inches, weight;
+	boolean isMale;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
