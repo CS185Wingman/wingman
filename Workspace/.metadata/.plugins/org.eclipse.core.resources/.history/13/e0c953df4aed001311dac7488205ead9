@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">wingman</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="plusOne">+1</string>
+    <string name="drinkSelect">Click Here to Select the Beverage</string>
+    <string name="prevDrinkLabel">Currently Selected Beverage:</string>
+    <string name="noDrinkSelected">No Drink Selected</string>
+    <string name="placeholder">PLACEHOLDER FOR BAC</string>
+
+</resources>
