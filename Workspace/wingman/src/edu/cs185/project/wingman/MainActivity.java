@@ -94,7 +94,13 @@ public class MainActivity extends ActionBarActivity implements
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			return true;
+			launchSettings();
+		}
+		else if(id == R.id.action_help){
+			launchHelp();
+		}
+		else if(id == R.id.action_drink_list){
+			launchPastDrinks();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -275,6 +281,57 @@ public class MainActivity extends ActionBarActivity implements
 		// alert.show();
 	}
 
+	//Action Bar Functions
+	public void launchSettings() {
+		dialog = new Dialog(this);
+
+		// set title
+		dialog.setTitle("User Settings");
+		dialog.setContentView(R.layout.user_settings);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
+		dialog.getWindow().setTitleColor(getResources().getColor(R.color.white));
+
+		LayoutInflater li = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		View vi = li.inflate(R.layout.user_settings, null);
+		View view = vi.getRootView();
+
+		dialog.setContentView(vi);
+		dialog.setCancelable(true);
+
+		dialog.show();
+	}
+
+	public void launchHelp() {
+		AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
+				.create();
+		alertDialog.setTitle("Help");
+		alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
+		alertDialog
+				.setMessage("As you drink, log the drinks you consume and Wingman will keep track of how much alcohol is in your system. \n "
+						+ "\n Select the type of drink you are consuming, and click the +1 button \n"
+						+ "Your blood-alcohol level will be calculated and you will be able to see if you can safely drink any more. \n \n"
+						+ "Click on the BAC number for a chart displaying the safe ranges \n \n"
+						+ "If your BAC is too high, it is unsafe to continue drinking alcohol.");
+		alertDialog.show();
+	}
+	
+	public void launchPastDrinks() {
+		AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
+				.create();
+		alertDialog.setTitle("Past Drinks");
+		alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
+		alertDialog
+				.setMessage("This is where a list of previously-consumed drinks and the time consumed will be");
+		alertDialog.show();
+	}
+	
+	public void saveUserSettings(View v){
+		dialog.dismiss();
+		System.out.println("Settings saved");
+	}
+	
 	private static final String[] DRINKS = new String[] { "Light Beer", "Dark Beer", "Wine",
 			"Shot", "Mixed Drink" };
 
